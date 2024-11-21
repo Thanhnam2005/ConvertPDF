@@ -4,39 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chuyển đổi ảnh sang PDF chuyên nghiệp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header class="animate-fade-in">
-            <h1>Chuyển đổi ảnh sang PDF chuyên nghiệp</h1>
-        </header>
-        <main>
-            <div class="card animate-slide-up">
-                <div id="drop-zone" class="drop-zone">
-                    <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
-                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                    <p>Kéo và thả các ảnh vào đây, hoặc nhấp để chọn tệp</p>
-                </div>
-                <div id="image-preview" class="image-preview"></div>
-                <button id="convert-btn" class="btn btn-primary animate-pulse" style="display: none;">
-                    <i class="fas fa-file-pdf"></i> Chuyển đổi sang PDF
-                </button>
-                <div id="pdf-download" class="pdf-download" style="display: none;">
-                    <h3 class="animate-fade-in">PDF của bạn đã sẵn sàng!</h3>
-                    <a id="download-link" class="btn btn-success animate-bounce" href="#" download="anh-da-chuyen-doi.pdf">
-                        <i class="fas fa-download"></i> Tải xuống PDF
-                    </a>
+    <header>
+        <div class="container">
+            <h1>ImageToPDF</h1>
+            <button id="themeToggle" aria-label="Chuyển đổi chế độ tối/sáng">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container">
+                <h2>Chuyển đổi ảnh sang PDF chuyên nghiệp</h2>
+                <p>Dễ dàng, nhanh chóng và an toàn - Hoàn toàn miễn phí!</p>
+                <a href="#converter" class="cta-button">Bắt đầu ngay</a>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2>Tính năng nổi bật</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-rocket"></i>
+                        <h3>Nhanh chóng</h3>
+                        <p>Chuyển đổi trong vài giây</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-lock"></i>
+                        <h3>An toàn</h3>
+                        <p>Bảo mật dữ liệu của bạn</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-magic"></i>
+                        <h3>Chất lượng cao</h3>
+                        <p>Giữ nguyên chất lượng ảnh</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-desktop"></i>
+                        <h3>Đa nền tảng</h3>
+                        <p>Sử dụng trên mọi thiết bị</p>
+                    </div>
                 </div>
             </div>
-        </main>
-        <footer class="animate-fade-in">
-            <p>&copy; 2023 Chuyển đổi ảnh sang PDF chuyên nghiệp. Bảo lưu mọi quyền.</p>
-        </footer>
-    </div>
+        </section>
+
+        <section id="converter" class="converter">
+            <div class="container">
+                <h2>Chuyển đổi ảnh của bạn</h2>
+                <div class="converter-container">
+                    <div id="drop-zone" class="drop-zone">
+                        <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Kéo và thả các ảnh vào đây, hoặc nhấp để chọn tệp</p>
+                    </div>
+                    <div id="image-preview" class="image-preview"></div>
+                    <button id="convert-btn" class="convert-button">
+                        <i class="fas fa-file-pdf"></i> Chuyển đổi sang PDF
+                    </button>
+                    <div id="pdf-download" class="pdf-download" style="display: none;">
+                        <h3>PDF của bạn đã sẵn sàng!</h3>
+                        <a id="download-link" class="download-button" href="#" download="anh-da-chuyen-doi.pdf">
+                            <i class="fas fa-download"></i> Tải xuống PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <h2>Khách hàng nói gì về chúng tôi</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-item">
+                        <p>"Công cụ tuyệt vời, giúp tôi tiết kiệm rất nhiều thời gian!"</p>
+                        <p class="author">- Nguyễn Văn A</p>
+                    </div>
+                    <div class="testimonial-item">
+                        <p>"Giao diện đẹp, dễ sử dụng. Tôi rất hài lòng với kết quả."</p>
+                        <p class="author">- Trần Thị B</p>
+                    </div>
+                    <div class="testimonial-item">
+                        <p>"Chất lượng PDF xuất ra rất tốt. Sẽ giới thiệu cho bạn bè."</p>
+                        <p class="author">- Lê Văn C</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ImageToPDF</h3>
+                    <p>Chuyển đổi ảnh sang PDF chuyên nghiệp</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="#hero">Trang chủ</a></li>
+                        <li><a href="#features">Tính năng</a></li>
+                        <li><a href="#converter">Chuyển đổi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên hệ</h4>
+                    <p>Email: support@imagetopdf.com</p>
+                    <p>Điện thoại: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ImageToPDF. Bảo lưu mọi quyền.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
