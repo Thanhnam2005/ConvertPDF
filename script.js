@@ -6,73 +6,72 @@ document.addEventListener('DOMContentLoaded', function() {
     const pdfDownload = document.getElementById('pdf-download');
     const downloadLink = document.getElementById('download-link');
 
-    let selectedFiles = [];
+    let uploadedImages = [];
 
     dropZone.addEventListener('click', () => fileInput.click());
-
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
-        dropZone.classList.add('dragover');
+        dropZone.classList.add('drag-over');
     });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', handleDrop);
+    fileInput.addEventListener('change', handleFileSelect);
+    convertBtn.addEventListener('click', convertToPdf);
 
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
+    function handleDrop(e) {
         e.preventDefault();
-        dropZone.classList.remove('dragover');
+        dropZone.classList.remove('drag-over');
         const files = e.dataTransfer.files;
         handleFiles(files);
-    });
+    }
 
-    fileInput.addEventListener('change', (e) => {
+    function handleFileSelect(e) {
         const files = e.target.files;
         handleFiles(files);
-    });
+    }
 
     function handleFiles(files) {
-        selectedFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+        uploadedImages = [...uploadedImages, ...Array.from(files)];
         updateImagePreview();
     }
 
     function updateImagePreview() {
         imagePreview.innerHTML = '';
-        selectedFiles.forEach(file => {
+        uploadedImages.forEach(file => {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
             img.onload = () => URL.revokeObjectURL(img.src);
             imagePreview.appendChild(img);
         });
-        convertBtn.style.display = selectedFiles.length > 0 ? 'inline-block' : 'none';
+        convertBtn.style.display = uploadedImages.length > 0 ? 'inline-block' : 'none';
     }
 
-    convertBtn.addEventListener('click', async () => {
-        if (selectedFiles.length === 0) return;
+    function convertToPdf() {
+        if (uploadedImages.length === 0) return;
 
         const pdf = new jspdf.jsPDF();
-        let firstPage = true;
-
-        for (const file of selectedFiles) {
-            const img = await createImageBitmap(file);
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            const imgData = canvas.toDataURL('image/jpeg');
-            if (!firstPage) {
-                pdf.addPage();
-            }
-            pdf.addImage(imgData, 'JPEG', 10, 10, 190, 0);
-            firstPage = false;
-        }
-
-        const pdfBlob = pdf.output('blob');
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        downloadLink.href = pdfUrl;
-        pdfDownload.style.display = 'block';
-    });
+        
+        uploadedImages.forEach((file, index) => {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = () => {
+                const imgWidth = pdf.internal.pageSize.getWidth();
+                const imgHeight = (img.height * imgWidth) / img.width;
+                
+                if (index > 0) {
+                    pdf.addPage();
+                }
+                
+                pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                
+                if (index === uploadedImages.length - 1) {
+                    const pdfBlob = pdf.output('blob');
+                    const pdfUrl = URL.createObjectURL(pdfBlob);
+                    downloadLink.href = pdfUrl;
+                    pdfDownload.style.display = 'block';
+                }
+            };
+        });
+    }
 });
 

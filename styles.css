@@ -69,7 +69,7 @@ h1 {
     transition: all 0.3s ease;
 }
 
-.drop-zone:hover {
+.drop-zone:hover, .drop-zone.drag-over {
     background-color: #ecf0f1;
     border-color: #2980b9;
 }
