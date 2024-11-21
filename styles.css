@@ -26,6 +26,9 @@ header {
     background-color: var(--white);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 }
 
 header .container {
@@ -44,6 +47,10 @@ header h1 {
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+}
+
+main {
+    padding-top: 70px;
 }
 
 .hero {
@@ -141,11 +148,32 @@ header h1 {
     margin-top: 1rem;
 }
 
+.image-container {
+    position: relative;
+}
+
 .image-preview img {
     max-width: 100px;
     max-height: 100px;
     object-fit: cover;
     border-radius: 5px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .convert-button, .download-button {
@@ -265,119 +293,6 @@ body.dark-mode .drop-zone {
 
 body.dark-mode .drop-zone:hover,
 body.dark-mode .drop-zone.drag-over {
-    background-color: rgba(74, 144, 226, ```
-
-```javascript file="script.js"
-document.addEventListener('DOMContentLoaded', function() {
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
-    const imagePreview = document.getElementById('image-preview');
-    const convertBtn = document.getElementById('convert-btn');
-    const pdfDownload = document.getElementById('pdf-download');
-    const downloadLink = document.getElementById('download-link');
-    const themeToggle = document.getElementById('themeToggle');
-
-    let uploadedImages = [];
-
-    // Theme toggle functionality
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    });
-
-    // File drop and selection functionality
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('drag-over');
-    });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-    dropZone.addEventListener('drop', handleDrop);
-    fileInput.addEventListener('change', handleFileSelect);
-    convertBtn.addEventListener('click', convertToPdf);
-
-    function handleDrop(e) {
-        e.preventDefault();
-        dropZone.classList.remove('drag-over');
-        const files = e.dataTransfer.files;
-        handleFiles(files);
-    }
-
-    function handleFileSelect(e) {
-        const files = e.target.files;
-        handleFiles(files);
-    }
-
-    function handleFiles(files) {
-        uploadedImages = [...uploadedImages, ...Array.from(files)];
-        updateImagePreview();
-    }
-
-    function updateImagePreview() {
-        imagePreview.innerHTML = '';
-        uploadedImages.forEach((file, index) => {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.onload = () => URL.revokeObjectURL(img.src);
-            
-            const imgContainer = document.createElement('div');
-            imgContainer.className = 'image-container';
-            imgContainer.appendChild(img);
-            
-            const removeBtn = document.createElement('button');
-            removeBtn.textContent = '✕';
-            removeBtn.className = 'remove-btn';
-            removeBtn.onclick = () => removeFile(index);
-            imgContainer.appendChild(removeBtn);
-            
-            imagePreview.appendChild(imgContainer);
-        });
-        convertBtn.style.display = uploadedImages.length > 0 ? 'inline-block' : 'none';
-    }
-
-    function removeFile(index) {
-        uploadedImages.splice(index, 1);
-        updateImagePreview();
-    }
-
-    function convertToPdf() {
-        if (uploadedImages.length === 0) return;
-
-        const pdf = new jspdf.jsPDF();
-        
-        let processedImages = 0;
-        uploadedImages.forEach((file, index) => {
-            const img = new Image();
-            img.src = URL.createObjectURL(file);
-            img.onload = () => {
-                const imgWidth = pdf.internal.pageSize.getWidth();
-                const imgHeight = (img.height * imgWidth) / img.width;
-                
-                if (index > 0) {
-                    pdf.addPage();
-                }
-                
-                pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
-                
-                processedImages++;
-                if (processedImages === uploadedImages.length) {
-                    const pdfBlob = pdf.output('blob');
-                    const pdfUrl = URL.createObjectURL(pdfBlob);
-                    downloadLink.href = pdfUrl;
-                    pdfDownload.style.display = 'block';
-                }
-            };
-        });
-    }
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-});
+    background-color: rgba(74, 144, 226, 0.1);
+}
 
